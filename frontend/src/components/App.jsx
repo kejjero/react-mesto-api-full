@@ -18,29 +18,17 @@ import * as auth from "../utils/auth"
 import InfoTooltip from "./InfoTooltip";
 
 function App() {
-    // стейт открытия попапа "Редактировать профиль"
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-    // стейт открытия попапа "Добавить карточку"
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-    // стейт открытия попапа "Добавить аватар"
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-    // стейт открытия попапа "Удалить карточку"
     const [isDeleteCardPopupOpen, setIsDeleteCardPopupOpen] = useState(false);
-    // стейт открытия попапа InfoTooltip
     const [isOpenInfoTooltip, setIsOpenInfoTooltip] = useState(false)
-    // стейт статуса запросов для InfoTooltip
     const [isSuccess, setIsSuccess] = useState(false)
-    // стейт селектора карточки для imagePopup
     const [selectedCard, setSelectedCard] = useState({})
-    // стейт определения пользователя
     const [currentUser, setCurrentUser] = useState(userContext)
-    // стейт карточек
     const [cards, setCards] = useState([])
-    // стейт определения карточки для удалаения
     const [cardToRemove, setCardToRemove] = useState({})
-    // стейт определения авторизации пользователя
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    // стейт определения почты
     const [userEmail, setUserEmail] = useState('')
     const navigate = useNavigate()
 

@@ -1,7 +1,13 @@
 class API {
-    constructor( { baseUrl, headers } ) {
-        this._url = baseUrl;
-        this._headers = headers;
+    constructor({ baseUrl }) {
+        this._baseUrl = baseUrl;
+    }
+
+    get _headers() {
+        return {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        }
     }
 
     // обработка запроса
@@ -19,7 +25,7 @@ class API {
 
     // получить карточки
     getCards() {
-        const promise = fetch(`${this._url}/cards`, {
+        const promise = fetch(`${this._baseUrl}/cards`, {
             method: 'GET',
             headers: this._headers,
         });
@@ -28,7 +34,7 @@ class API {
 
     // отправить карточку
     sendCard(name, link) {
-        const promise = fetch(`${this._url}/cards`, {
+        const promise = fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
             headers: this._headers,
             body: JSON.stringify({
@@ -41,7 +47,7 @@ class API {
 
     // Получить профиль пользователя
     getUserInfo() {
-        const promise = fetch(`${this._url}/users/me`, {
+        const promise = fetch(`${this._baseUrl}/users/me`, {
             method: 'GET',
             headers: this._headers,
         });
@@ -50,7 +56,7 @@ class API {
 
     // Редактировать профиль пользователя
     editProfile(name, about) {
-        const promise = fetch(`${this._url}/users/me`, {
+        const promise = fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
@@ -63,7 +69,7 @@ class API {
 
     // Редактировать аватар
     editAvatar(avatar) {
-        const promise = fetch(`${this._url}/users/me/avatar`, {
+        const promise = fetch(`${this._baseUrl}/users/me/avatar`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
@@ -75,7 +81,7 @@ class API {
 
     // Добавить лайк
     addLike(id) {
-        const promise = fetch(`${this._url}/cards/${id}/likes`, {
+        const promise = fetch(`${this._baseUrl}/cards/${id}/likes`, {
             method: 'PUT',
             headers: this._headers,
         })
@@ -84,7 +90,7 @@ class API {
 
     // Удалить лайк
     deleteLike(id) {
-        const promise = fetch(`${this._url}/cards/${id}/likes`, {
+        const promise = fetch(`${this._baseUrl}/cards/${id}/likes`, {
             method: 'DELETE',
             headers: this._headers,
         })
@@ -93,7 +99,7 @@ class API {
 
     // Удалить карточку
     deleteCard(id) {
-        const promise = fetch(`${this._url}/cards/${id}`, {
+        const promise = fetch(`${this._baseUrl}/cards/${id}`, {
             method: 'DELETE',
             headers: this._headers,
         })
@@ -103,12 +109,7 @@ class API {
 
 // Экземпляр класса Api
 export const api = new API({
-    baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-38',
-    headers: {
-        authorization:
-            '6550da10-2d55-4388-86e4-3d7ab266355b',
-            'Content-Type': 'application/json'
-    }
+    baseUrl: 'https://api.kejero.nomoredomains.xyz',
 });
 
 export default api;
