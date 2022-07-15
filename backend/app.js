@@ -1,3 +1,4 @@
+const cors = require('cors');
 const helmet = require('helmet');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -10,6 +11,7 @@ const { login, createUser } = require('./controllers/users');
 const errorHandler = require('./middlewares/errorHandler');
 const { regExp } = require('./utils/utils');
 const NotFoundError = require('./errors/NotFoundError');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 
@@ -27,6 +29,16 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
+
+app.use(requestLogger);
+
+app.use(cors());
+
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
@@ -56,10 +68,11 @@ app.use('/cards', require('./routes/cards'));
 
 app.use('*', (_req, _res, next) => next(new NotFoundError('Cтраница не найдена.')));
 
+app.use(errorLogger);
+
 app.use(errors());
 
 app.use(errorHandler);
 
 app.listen(PORT);
 
-// я поторопился и забыл смерджить ветки, из-за этого так много ошибок :)
