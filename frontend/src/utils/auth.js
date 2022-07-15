@@ -40,7 +40,8 @@ export const login = ({email, password}) => {
         })
 }
 
-export const checkToken = () => {
+export const checkToken = (token) => {
+    console.log(token, 'tokencheck')
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {

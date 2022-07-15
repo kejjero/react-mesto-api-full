@@ -204,8 +204,6 @@ function App() {
     function checkToken() {
         const token = localStorage.getItem('token');
         if (token) {
-            // если есть токен - отправляем его на авторизацию
-            // в респонсе получаем данные пользователя
             auth.checkToken(token)
                 .then(response => {
                     setUserEmail(response.data.email)
