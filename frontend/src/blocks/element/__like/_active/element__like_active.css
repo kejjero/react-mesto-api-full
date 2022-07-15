@@ -1,0 +1,8 @@
+.element__like_active {
+    background: url(../../../../images/element__like_active.svg) center no-repeat;
+    background-size: 100%;
+}
+
+.element__like_active:hover{
+    opacity: 1;
+}

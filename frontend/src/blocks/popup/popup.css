@@ -1,0 +1,16 @@
+.popup {
+	display: flex;
+	max-width: 1280px;
+	visibility: hidden;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	position: fixed;
+	top: 0;
+	z-index: 3;
+	background-color: rgba(0,0,0, 0.5);
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	transition: opacity .55s,visibility .55s linear;
+}
