@@ -62,6 +62,10 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
+app.get('/signout', (_req, res) => {
+  res.status(200).clearCookie('jwt').send({ message: 'Выход' });
+});
+
 app.use(auth);
 
 app.use('/users', require('./routes/users'));
