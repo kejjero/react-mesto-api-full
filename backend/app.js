@@ -1,3 +1,4 @@
+require('dotenv').config();
 const cors = require('cors');
 const helmet = require('helmet');
 const express = require('express');
@@ -75,4 +76,3 @@ app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT);
-
