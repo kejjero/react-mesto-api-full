@@ -4,26 +4,25 @@ const validator = require('validator');
 const cardSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Обязательное поле для заполнения'],
-    minlength: [2, 'Минимальная длина 2 символа'],
-    maxlength: [30, 'Максимальная длина 30 символов'],
+    required: true,
+    minlength: 2,
+    maxlength: 30,
   },
   link: {
     type: String,
-    required: [true, 'Обязательное поле для заполнения'],
+    required: true,
     validate: {
-      validator: (link) => validator.isURL(link),
+      validator: (v) => validator.isURL(v),
       message: 'Неправильный формат ссылки',
     },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    required: [true, 'Обязательное поле для заполнения'],
+    required: true,
   },
   likes: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+    type: [mongoose.Schema.Types.ObjectId],
     default: [],
   },
   createdAt: {

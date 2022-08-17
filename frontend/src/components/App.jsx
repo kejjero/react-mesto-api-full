@@ -181,7 +181,7 @@ function App() {
 
     // авторизация пользователя
     function handleLogin(email, password) {
-        auth.login(password, email)
+        auth.authorize(password, email)
             .then(res => {
                 // в респонсе проверяем наличие токена
                 // добавляем токен в локал сторедж и меняем стейт авторизации
@@ -201,16 +201,19 @@ function App() {
     }
 
     // проверка наличия токена
-    function checkToken() {
-        const token = localStorage.getItem('token');
-        if (token) {
-            auth.checkToken(token)
-                .then(response => {
-                    setUserEmail(response.data.email)
-                    setIsLoggedIn(true)
-                    navigate('/')
+    const checkToken = () => {
+        const jwt = localStorage.getItem('token');
+        if(jwt) {
+            auth.getContent(jwt)
+                .then((res) => {
+                    if (res) {
+                        setIsLoggedIn(true);
+                        setUserEmail(res.email);
+                        navigate('/')
+                    }
                 })
-                .catch(err => console.log(err))
+                .catch((err) => console.log(err));
+            localStorage.removeItem('token');
         }
     }
 

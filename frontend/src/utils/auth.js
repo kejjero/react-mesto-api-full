@@ -1,14 +1,10 @@
-const BASE_URL = 'https://api.kejero.nomoredomains.xyz';
+export const BASE_URL = 'https://api.kejero.nomoredomains.xyz';
 
-// проверка наличия респонса и преобразование его в джейсон
-const checkResponse = (response) => {
-    try {
-        if (response.ok) {
-            return response.json()
-        }
-    }  catch (error) {
-        return alert(error)
+export const checkResponse = (res) => {
+    if(res.ok) {
+        return res.json();
     }
+    return Promise.reject('Error' + res.status)
 }
 
 export const register = ({email, password}) => {
@@ -23,7 +19,7 @@ export const register = ({email, password}) => {
         .then(checkResponse);
 }
 
-export const login = ({email, password}) => {
+export const authorize = ({email, password}) => {
     return fetch(`${BASE_URL}/signin`, {
         method: 'POST',
         headers: {
@@ -40,7 +36,7 @@ export const login = ({email, password}) => {
         })
 }
 
-export const checkToken = (token) => {
+export const getContent = (token) => {
     console.log(token, 'tokencheck')
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',

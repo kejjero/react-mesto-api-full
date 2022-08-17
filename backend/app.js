@@ -7,12 +7,13 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const { celebrate, Joi, errors } = require('celebrate');
-const auth = require('./middlewares/auth');
 const { login, createUser } = require('./controllers/users');
-const errorHandler = require('./middlewares/errorHandler');
-const { regExp } = require('./utils/utils');
+const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
+const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+
+const regExp = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w.-]+)+[\w\-._~:/?#[\]@!$&'()*+,;=.]+$/;
 
 const app = express();
 
@@ -20,7 +21,8 @@ app.use(helmet());
 
 app.use(cookieParser());
 
-const { PORT = 3000 } = process.env;
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -29,9 +31,11 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
+app.use(requestLogger);
+
 app.use(limiter);
 
-app.use(requestLogger);
+const { PORT = 3000 } = process.env;
 
 app.use(cors());
 
@@ -41,24 +45,20 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-mongoose.connect('mongodb://localhost:27017/mestodb');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.post('/signin', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
+    email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
 }), login);
+
 app.post('/signup', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().custom(regExp, 'custom validation'),
+    avatar: Joi.string().pattern(regExp),
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
   }),
 }), createUser);
 
@@ -68,15 +68,17 @@ app.get('/signout', (_req, res) => {
 
 app.use(auth);
 
-app.use('/users', require('./routes/users'));
-app.use('/cards', require('./routes/cards'));
+app.use('/', require('./routes/users'));
+app.use('/', require('./routes/cards'));
 
 app.use('*', (_req, _res, next) => next(new NotFoundError('Cтраница не найдена.')));
 
-app.use(errorLogger);
+app.use(errorLogger); // подключаем логгер ошибок
 
-app.use(errors());
+app.use(errors()); // обработчик ошибок celebrate
 
-app.use(errorHandler);
+app.use(errorHandler); // централизованный обработчик ошибок
+
+mongoose.connect('mongodb://localhost:27017/mestodb');
 
 app.listen(PORT);
