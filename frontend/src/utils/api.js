@@ -109,7 +109,7 @@ class API {
 
 // Экземпляр класса Api
 export const api = new API({
-    baseUrl: 'https://api.kejero.nomoredomains.xyz/',
+    baseUrl: 'https://api.kejero.nomoredomains.xyz',
 });
 
 export default api;

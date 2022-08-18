@@ -35,11 +35,11 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/YippeeSmile/express-mesto-gha.git"
+        "url": "git+https://github.com/kejjero/express-mesto-gha.git"
     },
     "bugs": {
-        "url": "https://github.com/YippeeSmile/express-mesto-gha/issues"
+        "url": "https://github.com/kejjero/express-mesto-gha/issues"
     },
-    "homepage": "https://github.com/YippeeSmile/express-mesto-gha#readme",
+    "homepage": "https://github.com/kejjero/express-mesto-gha#readme",
     "description": ""
 }

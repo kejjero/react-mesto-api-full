@@ -5,6 +5,7 @@ function ConfirmDeletePopup(props) {
     function handleSubmit(evt) {
         evt.preventDefault();
         props.onSubmitDelete(props.card);
+        props.onClose();
     }
 
     return (

@@ -21,6 +21,7 @@ function AddPlacePopup(props) {
     function handleSubmit(evt) {
         evt.preventDefault();
         props.onAddCard({namePlace, linkPlace})
+        props.onClose();
     }
 
     return (

@@ -1,10 +1,10 @@
 const allowedCors = [
     'https://api.kejero.nomoredomains.xyz',
     'http://api.kejero.nomoredomains.xyz',
-    'https://localhost:3000',
-    'https://localhost:3001',
     'http://localhost:3000',
+    'https://localhost:3000',
     'http://localhost:3001',
+    'https://localhost:3001',
     'https://kejero.nomoredomains.xyz',
     'http://kejero.nomoredomains.xyz',
   ];
