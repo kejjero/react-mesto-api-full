@@ -83,10 +83,11 @@ function App() {
     // функция лайка карточки
     function handleCardLike(card) {
         // Ищем айди пользователя в массиве лайкнувших карточку
-        const isLiked = card.likes.some(item => item._id === currentUser._id);
+        const isLiked = card.likes.some(userId => userId === currentUser._id);
         if (isLiked) {
             api.deleteLike(card._id)
                 .then((res) => {
+                    console.log(res, 'idasdsa')
                     setCards((cards) =>
                         cards.map((item) => (item._id === card._id ? res : item)))
                 })
@@ -158,9 +159,9 @@ function App() {
 
     // регистрация пользователя
     function handleRegister(email, password) {
-        auth.register(password, email)
+        auth.register({email, password})
             .then((res) => {
-                if (res.data) {
+                if (res) {
                     // если в респонсе возвращается объект с данными пользователя:
                     // уведомляем пользователя об удачной регистрации и меняем url на авторизацию
                     setIsSuccess(true)
@@ -181,7 +182,7 @@ function App() {
 
     // авторизация пользователя
     function handleLogin(email, password) {
-        auth.authorize(password, email)
+        auth.authorize({email, password})
             .then(res => {
                 // в респонсе проверяем наличие токена
                 // добавляем токен в локал сторедж и меняем стейт авторизации
@@ -194,7 +195,6 @@ function App() {
                 }
             })
             .catch((err) => {
-                console.log(err)
                 setIsSuccess(false)
                 setIsOpenInfoTooltip(true)
             })

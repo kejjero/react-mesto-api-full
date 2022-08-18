@@ -1,5 +1,5 @@
 require('dotenv').config();
-const cors = require('cors');
+const cors = require('./middlewares/cors');
 const helmet = require('helmet');
 const express = require('express');
 const mongoose = require('mongoose');
@@ -31,13 +31,14 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(requestLogger);
-
 app.use(limiter);
 
 const { PORT = 3000 } = process.env;
 
-app.use(cors());
+app.use(cors);
+
+app.use(requestLogger);
+
 
 app.get('/crash-test', () => {
   setTimeout(() => {
@@ -73,11 +74,11 @@ app.use('/', require('./routes/cards'));
 
 app.use('*', (_req, _res, next) => next(new NotFoundError('Cтраница не найдена.')));
 
-app.use(errorLogger); // подключаем логгер ошибок
+app.use(errorLogger); 
 
-app.use(errors()); // обработчик ошибок celebrate
+app.use(errors()); 
 
-app.use(errorHandler); // централизованный обработчик ошибок
+app.use(errorHandler); 
 
 mongoose.connect('mongodb://localhost:27017/mestodb');
 

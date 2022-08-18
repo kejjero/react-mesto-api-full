@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.kejero.nomoredomains.xyz';
+export const BASE_URL = 'http://localhost:3000';
 
 export const checkResponse = (res) => {
     if(res.ok) {
@@ -30,20 +30,18 @@ export const authorize = ({email, password}) => {
     })
         .then(checkResponse)
         .then(res => {
-            console.log('res.roken', res.token)
             localStorage.setItem('jwt', res.token)
             return res
         })
 }
 
 export const getContent = (token) => {
-    console.log(token, 'tokencheck')
     return fetch(`${BASE_URL}/users/me`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Authorization': `Bearer ${localStorage.getItem(token)}`,
         },
     })
         .then(checkResponse);
