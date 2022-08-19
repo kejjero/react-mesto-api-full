@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://kejero.nomoredomains.xyz';
+export const BASE_URL = 'https://api.kejero.nomoredomains.xyz' 
 
 export const checkResponse = (res) => {
     if(res.ok) {
