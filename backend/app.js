@@ -75,7 +75,7 @@ app.use('*', (_req, _res, next) => next(new NotFoundError('Cтраница не 
 
 app.use(errorLogger);
 
-app.use(errors()); 
+app.use(errors());
 
 app.use(errorHandler);
 
